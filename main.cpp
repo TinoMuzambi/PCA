@@ -15,21 +15,13 @@ int main() {
     Eigen::MatrixXf initialMatrix;
     initialMatrix.resize(noRows, noCols);
     for (int i = 0; i < noRows; ++i) {
-        for (int j = 0; j < noCols; ++j) {
-            initialMatrix(i, j) = january[j + i * noCols];
-            initialMatrix(i, j) = june[j + i * noCols];
+        for (int j = 0; j < 1; ++j) {
+            double temp = january[j + i * noCols];
+            double temp2 = june[j + i * noCols];
+            initialMatrix(i, j) = january[i];
+            initialMatrix(i, j + 1) = june[i];
         }
     }
-
-    for (int i = 0; i < noRows; i++) {
-        for (int j = 0; j < noCols; j++) {
-            cout << initialMatrix(i, j) << " ";
-        }
-        cout << endl;
-    }
-    
-
-
 
     return 0;
 }
