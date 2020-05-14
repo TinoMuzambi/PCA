@@ -14,14 +14,38 @@ int main() {
     const unsigned int noCols = 2;
     Eigen::MatrixXf initialMatrix;
     initialMatrix.resize(noRows, noCols);
-    for (int i = 0; i < noRows; ++i) {
+    for (int i = 0; i < noRows; ++i) { // Populate matrix with values from data file.
         for (int j = 0; j < 1; ++j) {
-            double temp = january[j + i * noCols];
-            double temp2 = june[j + i * noCols];
             initialMatrix(i, j) = january[i];
             initialMatrix(i, j + 1) = june[i];
         }
     }
+
+//    cout << initialMatrix << endl;
+
+    Eigen::VectorXf means(noCols); // Obtain means of the data column-wise.
+    means = initialMatrix.colwise().mean();
+
+    for (int i = 0; i < noRows; ++i) { // Subtract mean from data points.
+        for (int j = 0; j < 1; ++j) {
+            initialMatrix(i, j) -= means[j];
+            initialMatrix(i, j + 1) -= means[j + 1];
+        }
+    }
+
+//    cout << initialMatrix << endl;
+
+//    Eigen::MatrixXf covMatrix; // Calculate sample covariance matrix.
+//    Eigen::VectorXf stdDevs;
+//    covMatrix = (1 / noRows) * initialMatrix.transpose() * initialMatrix;
+//    cout << covMatrix << endl;
+//    cout << endl;
+//    stdDevs = covMatrix.diagonal().array().sqrt();
+//    Eigen::MatrixXf outerStdDevs = stdDevs * stdDevs.transpose();
+//    covMatrix = covMatrix.array() / outerStdDevs.array();
+//    outerStdDevs.resize(0, 0);
+
+//    cout << covMatrix << endl;
 
     return 0;
 }
