@@ -21,8 +21,6 @@ int main() {
         }
     }
 
-//    cout << initialMatrix << endl;
-
     Eigen::VectorXf means(noCols); // Obtain means of the data column-wise.
     means = initialMatrix.colwise().mean();
 
@@ -33,19 +31,25 @@ int main() {
         }
     }
 
-//    cout << initialMatrix << endl;
+    Eigen::MatrixXf centered = initialMatrix.rowwise() - initialMatrix.colwise().mean(); // Calculate sample covariance matrix.
+    Eigen::MatrixXf cov = (centered.adjoint() * centered) / double(noRows - 1);
 
-//    Eigen::MatrixXf covMatrix; // Calculate sample covariance matrix.
-//    Eigen::VectorXf stdDevs;
-//    covMatrix = (1 / noRows) * initialMatrix.transpose() * initialMatrix;
-//    cout << covMatrix << endl;
-//    cout << endl;
-//    stdDevs = covMatrix.diagonal().array().sqrt();
-//    Eigen::MatrixXf outerStdDevs = stdDevs * stdDevs.transpose();
-//    covMatrix = covMatrix.array() / outerStdDevs.array();
-//    outerStdDevs.resize(0, 0);
+    cout << "Sample Covariance Matrix" << endl;
+    cout << cov << endl;
 
-//    cout << covMatrix << endl;
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXf> eig(cov);
+
+    Eigen::MatrixXf eigValues = eig.eigenvalues();
+    Eigen::MatrixXf eigVectors = eig.eigenvectors().rightCols(2); // Computing eigenvectors and eigenvalues.
+
+    cout << "Eigen Vectors" << endl;
+    cout << eigVectors << endl;
+    cout << "Eigen Values" << endl;
+    cout << eigValues << endl;
+
+    double totalVariance = eigValues.sum();
+    cout << "Total Variance" << endl;
+    cout << totalVariance << endl;
 
     return 0;
 }
