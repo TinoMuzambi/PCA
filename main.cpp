@@ -38,14 +38,17 @@ int main() {
 
     double totalVariance = eigValues.sum(); // Computing total variance.
 
-    double percVarExplained = (totalVariance / cov.diagonal().sum()) * 100; // Computing percentage of total variance
+    double percVarExplained1 = (eigValues(0) / cov.diagonal().sum()) * 100; // Computing percentage of total variance
                                                                     // explained by principal components 1 and 2
+	double percVarExplained2 = (eigValues(1) / cov.diagonal().sum()) * 100;
+	
     ofstream output("answers.txt");
     output << "1. Eigen Values:\n" << eigValues << "\n" << endl;
     output << "2. Eigen Vectors:\n" << eigVectors << "\n" << endl;
     output << "3. Covariance Matrix:\n" << cov << "\n" << endl;
     output << "4. Total Variance:\n" << totalVariance << "\n" << endl;
-    output << "5. Proportion of total variance explained by PCs 1 and 2:\n" << percVarExplained << "%" << endl;
+    output << "5. Proportion of total variance explained by PC 1 1:\n" << percVarExplained1 << "%" << endl;
+	output << "5. Proportion of total variance explained by PC 2 1:\n" << percVarExplained2 << "%" << endl;
     output.close();
 
     return 0;
