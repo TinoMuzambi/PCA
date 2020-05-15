@@ -18,7 +18,7 @@ vector<double> june  = {81.6, 91.2, 81.4, 75.2, 73, 72.7, 75.8, 78.7, 81, 82.3, 
 int main() {
     const unsigned int noRows = january.size();
     const unsigned int noCols = 2;
-    Eigen::MatrixXf initialMatrix;
+    Eigen::MatrixXd initialMatrix;
     initialMatrix.resize(noRows, noCols);
     for (int i = 0; i < noRows; ++i) { // Populate matrix with values from data file.
         for (int j = 0; j < 1; ++j) {
@@ -27,14 +27,14 @@ int main() {
         }
     }
 
-    Eigen::MatrixXf centered =
+    Eigen::MatrixXd centered =
             initialMatrix.rowwise() - initialMatrix.colwise().mean(); // Subtract mean from data points.
-    Eigen::MatrixXf cov = (centered.adjoint() * centered) / double(noRows - 1); // Calculate sample covariance matrix.
+    Eigen::MatrixXd cov = (centered.adjoint() * centered) / double(noRows - 1); // Calculate sample covariance matrix.
 
-    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXf> eig(cov);
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eig(cov);
 
-    Eigen::MatrixXf eigValues = eig.eigenvalues();
-    Eigen::MatrixXf eigVectors = eig.eigenvectors().rightCols(2); // Computing eigenvectors and eigenvalues.
+    Eigen::MatrixXd eigValues = eig.eigenvalues(); // Computing eigenvectors and eigenvalues.
+    Eigen::MatrixXd eigVectors = eig.eigenvectors().rightCols(2);
 
     double totalVariance = eigValues.sum(); // Computing total variance.
 
